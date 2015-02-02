@@ -1,0 +1,13 @@
+body {
+	width: 500px;
+}
+
+.subHeader {
+	font-size: 150%;
+}
+
+.author {
+	position : relative;
+	left     : 15px;
+	font-size: 120%;
+}

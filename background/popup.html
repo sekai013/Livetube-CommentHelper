@@ -3,11 +3,57 @@
 <head>
 	<meta charset = "utf-8">
 	<title></title>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/popup.css">
 	<script src="./js/lib/jquery-2.1.1.min.js"></script>
+	<script src="./js/lib/underscore.js"></script>
+	<script src="./js/lib/backbone.js"></script>
+	<script src="./js/lib/backbone.chromeStorage.min.js"></script>
 	<script src="./js/popup.js"></script>
+	<script src="./js/models.js"></script>
+	<script src="./js/container.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/authorListItemView.js"></script>
+	<script src="./js/authorListView.js"></script>
 </head>
 <body>
+<div id="header"></div>
+<div id="mainContainer"></div>
+
+<script type="text/template" id="authorListItemViewTemplate">
+	<td>
+		<div class="row">
+			<div class="col-xs-8">
+				<a href="#author/<%- name %>" class="author"><%- name %></a>
+			</div>
+			<div class="col-xs-4 text-right">
+				<a href="#edit/author/<%- name %>" class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-edit"></span> 編集
+				</a>
+				<button class="btn btn-danger btn-sm">
+					<span class="glyphicon glyphicon-remove"></span> 削除
+				</button>
+			</div>
+		</div>
+	<td>
+</script>
+
+<script type="text/template" id="authorListViewTemplate">
+	<thead>
+		<th>
+			<div class="row">
+				<div class="col-xs-7"><span class="subHeader">登録配信者一覧</span></div>
+				<div class="col-xs-5 text-right">
+					<a href="#register/author" class="btn btn-default btn-sm">
+						<span class="glyphicon glyphicon-plus"></span> 配信者を登録
+					</a>
+				</div>
+			</div>
+		</th>
+	</thead>
+	<tbody id="authorListItemViewContainer">
+	</tbody>
+</script>
+
 </body>
 </html>
-
-
