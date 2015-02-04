@@ -2,12 +2,13 @@
 
 App.Router = Backbone.Router.extend({
 	routes: {
-		'author/list'        : 'showAuthorList',
-		'author/new'         : 'showNewAuthorForm',
-		'author/:id/edit'    : 'showEditAuthorForm',
-		'author/:id/word/new': 'showNewWordForm',
-		'author/:id'         : 'showAuthorPage',
-		'*anythingElse'      : 'defaultRoute'
+		'author/list'                  : 'showAuthorList',
+		'author/new'                   : 'showNewAuthorForm',
+		'author/:id/edit'              : 'showEditAuthorForm',
+		'author/:id/word/new'          : 'showNewWordForm',
+		'author/:id/word/:content/edit': '',
+		'author/:id'                   : 'showAuthorPage',
+		'*anythingElse'                : 'defaultRoute'
 	},
 
 	showAuthorList: function() {
@@ -76,11 +77,43 @@ App.Router = Backbone.Router.extend({
 		App.mainContainer.show(wordFormView);
 	},
 
+	showEditWordForm: function(id, content) {
+		var restoredContent = content.replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+		var wordFormView = new App.WordFormView({
+			model: new App.Word({ content: restoredContent })
+		});
+		var author = App.authorCollection.get(id);
+		var index  = author.get('words').indexOf(restoredContent);
+		var self   = this;
+
+		wordFormView.on('submitForm', function(word) {
+			if(word !== restoredContent) {
+				if(index === -1) {
+					author.get('words').push(word);
+				} else {
+					author.get('words').splice(index, 1, word);
+				}
+
+				author.save();
+			}
+
+			self.showAuthorPage(id);
+			self.navigate('author/' + id);
+		});
+
+		App.mainContainer.show(wordFormView);
+	},
+
 	showAuthorPage: function(id) {
 		var author         = App.authorCollection.get(id);
 		var authorPageView = new App.AuthorPageView({
 			model: author
 		});
+
+		authorPageView.on('wordEdited', function(detail) {
+			this.showEditWordForm(detail.authorId, detail.content);
+			this.navigate('author/' + detail.authorId + '/word/' + detail.content);
+		}, this);
 
 		App.mainContainer.show(authorPageView);
 	},
