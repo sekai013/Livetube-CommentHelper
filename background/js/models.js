@@ -1,5 +1,11 @@
 'use strict';
 
+App.Word = Backbone.Model.extend({
+	defaults: {
+		content: ''
+	}
+});
+
 App.Author = Backbone.Model.extend({
 	defaults: {
 		name : '',

@@ -7,6 +7,7 @@ $(function() {
 	var initializeAuthors = function() {
 		var authorCollection = new App.AuthorCollection([{
 			name : 'sekai',
+			id   : 'sekai',
 			words: ['this', 'is', 'sample']
 		}]);
 

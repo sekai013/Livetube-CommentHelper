@@ -13,21 +13,24 @@
 	<script src="./js/models.js"></script>
 	<script src="./js/container.js"></script>
 	<script src="./js/router.js"></script>
+	<script src="./js/authorFormView.js"></script>
 	<script src="./js/authorListItemView.js"></script>
 	<script src="./js/authorListView.js"></script>
+	<script src="./js/wordView.js"></script>
+	<script src="./js/wordFormView.js"></script>
+	<script src="./js/authorPageView.js"></script>
 </head>
 <body>
-<div id="header"></div>
 <div id="mainContainer"></div>
 
 <script type="text/template" id="authorListItemViewTemplate">
 	<td>
 		<div class="row">
 			<div class="col-xs-8">
-				<a href="#author/<%- name %>" class="author"><%- name %></a>
+				<a href="#author/<%- id %>" class="author"><%- name %></a>
 			</div>
 			<div class="col-xs-4 text-right">
-				<a href="#edit/author/<%- name %>" class="btn btn-default btn-sm">
+				<a href="#author/<%- id %>/edit" class="btn btn-default btn-sm">
 					<span class="glyphicon glyphicon-edit"></span> 編集
 				</a>
 				<button class="btn btn-danger btn-sm">
@@ -35,7 +38,7 @@
 				</button>
 			</div>
 		</div>
-	<td>
+	</td>
 </script>
 
 <script type="text/template" id="authorListViewTemplate">
@@ -44,7 +47,7 @@
 			<div class="row">
 				<div class="col-xs-7"><span class="subHeader">登録配信者一覧</span></div>
 				<div class="col-xs-5 text-right">
-					<a href="#register/author" class="btn btn-default btn-sm">
+					<a href="#author/new" class="btn btn-default btn-sm">
 						<span class="glyphicon glyphicon-plus"></span> 配信者を登録
 					</a>
 				</div>
@@ -53,6 +56,124 @@
 	</thead>
 	<tbody id="authorListItemViewContainer">
 	</tbody>
+</script>
+
+<script type="text/template" id="wordViewTemplate">
+	<td>
+		<div class="row">
+			<div class="col-xs-6">
+				<button id="removeWord" class="btn btn-default btn-xs">
+					<span class="glyphicon glyphicon-remove"></span> 
+				</button>
+				 <span id="content"><%- content %></span>
+			</div>
+			<div class="col-xs-6 text-right">
+				<button class="btn btn-default btn-xs">コピー</button>
+				<button class="btn btn-default btn-xs">コメント欄に張りつけ</button>
+				<button class="btn btn-default btn-xs">投稿</button>
+			</div>
+		</div>
+	</td>
+</script>
+
+<script type="text/template" id="authorPageViewTemplate">
+	<thead>
+		<th>
+			<div class="row">
+				<div class="col-xs-5"><span class="subHeader"><%- name %></span></div>
+				<div class="col-xs-7 text-right">
+					<a href="#author/list" class="btn btn-default btn-sm">
+						配信者一覧に戻る
+					</a>
+					<a href="#author/<%= id %>/word/new" class="btn btn-default btn-sm">
+						<span class="glyphicon glyphicon-plus"></span> コメントを登録
+					</a>
+				</div>
+			</div>
+		</th>
+	</thead>
+	<tbody id="wordViewContainer">
+	</tbody
+</script>
+
+<script type="text/template" id="authorFormViewTemplate">
+	<table class="table">
+		<thead>
+			<th>
+				<div class="row">
+					<div class="col-xs-8">
+						<span class="subHeader">
+							<% if(typeof id === 'undefined') { %> 
+								新規配信者登録
+							<% } else { %>
+								編集:配信者
+							<% } %>
+						</span>
+					</div>
+					<div class="col-xs-4 text-right">
+						<a href="#author/list" class="btn btn-default btn-sm">
+							配信者一覧に戻る
+						</a>
+					</div>
+				</div>
+			</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<form id="authorForm">
+						<label for="authorName">名前</label>
+						<input type="text" value="<%- name %>" id="authorName">
+						<% if(typeof id === 'undefined') { %>
+							<input type="submit" value="登録" class="btn btn-default btn-sm">
+						<% } else { %>
+							<input type="submit" value="編集" class="btn btn-default btn-sm">
+						<% } %>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</script>
+
+<script type="text/template" id="wordFormViewTemplate">
+	<table class="table">
+		<thead>
+			<th>
+				<div class="row">
+					<div class="col-xs-8">
+						<span class="subHeader">
+							<% if(typeof id === 'undefined') { %> 
+								新規ワード登録
+							<% } else { %>
+								編集:ワード
+							<% } %>
+						</span>
+					</div>
+					<div class="col-xs-4 text-right">
+						<a href="#author/list" class="btn btn-default btn-sm">
+							配信者一覧に戻る
+						</a>
+					</div>
+				</div>
+			</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<form id="wordForm">
+						<label for="word">ワード</label>
+						<input type="text" id="word">
+						<% if(typeof id === 'undefined') { %>
+							<input type="submit" value="登録" class="btn btn-default btn-sm">
+						<% } else { %>
+							<input type="submit" value="編集" class="btn btn-default btn-sm">
+						<% } %>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </script>
 
 </body>
