@@ -62,15 +62,18 @@
 	<td>
 		<div class="row">
 			<div class="col-xs-6">
-				<button id="removeWord" class="btn btn-default btn-xs">
-					<span class="glyphicon glyphicon-remove"></span> 
-				</button>
-				 <span id="content"><%- content %></span>
+				 <div id="content"><%- content %></div>
 			</div>
 			<div class="col-xs-6 text-right">
-				<button class="btn btn-default btn-xs">コピー</button>
+				<button id="copyWord" class="btn btn-default btn-xs">コピー</button>
 				<button class="btn btn-default btn-xs">コメント欄に張りつけ</button>
 				<button class="btn btn-default btn-xs">投稿</button>
+				<button id="editWord" class="btn btn-default btn-xs">
+					<span class="glyphicon glyphicon-edit"></span> 編集
+				</button>
+				<button id="removeWord" class="btn btn-danger btn-xs">
+					<span class="glyphicon glyphicon-remove"></span> 削除
+				</button>
 			</div>
 		</div>
 	</td>
@@ -86,7 +89,7 @@
 						配信者一覧に戻る
 					</a>
 					<a href="#author/<%= id %>/word/new" class="btn btn-default btn-sm">
-						<span class="glyphicon glyphicon-plus"></span> コメントを登録
+						<span class="glyphicon glyphicon-plus"></span> ワードを登録
 					</a>
 				</div>
 			</div>
@@ -162,13 +165,13 @@
 			<tr>
 				<td>
 					<form id="wordForm">
-						<label for="word">ワード</label>
-						<input type="text" id="word">
 						<% if(typeof id === 'undefined') { %>
 							<input type="submit" value="登録" class="btn btn-default btn-sm">
 						<% } else { %>
 							<input type="submit" value="編集" class="btn btn-default btn-sm">
 						<% } %>
+						<br />
+						<textarea id="word" rows="5" cols="70"><%- content %></textarea>
 					</form>
 				</td>
 			</tr>
