@@ -4,7 +4,8 @@
 	"version": "0.0.0",
 	"author": "sekai013",
 	"permissions": [
-		"storage"
+		"storage",
+		"tabs"
 	],
 	"browser_action": {
 		"default_popup": "background/popup.html",

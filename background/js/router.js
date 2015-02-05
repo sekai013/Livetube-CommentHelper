@@ -6,7 +6,7 @@ App.Router = Backbone.Router.extend({
 		'author/new'                   : 'showNewAuthorForm',
 		'author/:id/edit'              : 'showEditAuthorForm',
 		'author/:id/word/new'          : 'showNewWordForm',
-		'author/:id/word/:content/edit': '',
+		'author/:id/word/:content/edit': 'showEditWordForm',
 		'author/:id'                   : 'showAuthorPage',
 		'*anythingElse'                : 'defaultRoute'
 	},
@@ -21,7 +21,7 @@ App.Router = Backbone.Router.extend({
 
 	showNewAuthorForm: function() {
 		var authorFormView = new App.AuthorFormView({
-			model: new App.Author()
+			model: (App.isNewAuthor)? new App.Author({ name: App.authorId }) : new App.Author()
 		});
 		var self = this;
 
@@ -30,6 +30,7 @@ App.Router = Backbone.Router.extend({
 
 			App.authorCollection.add(newAuthor);
 			newAuthor.save();
+			App.isNewAuthor = false;
 			self.showAuthorList();
 			self.navigate('author/list');
 		});
@@ -119,7 +120,20 @@ App.Router = Backbone.Router.extend({
 	},
 
 	defaultRoute: function() {
-		this.showAuthorList();
-		this.navigate('author/list');
+
+		if(typeof App.authorId !== 'undefined') {
+
+			if(App.isNewAuthor) {
+				this.showNewAuthorForm();
+				this.navigate('author/new');
+			} else {
+				this.showAuthorPage(App.authorId);
+				this.navigate('author/' + App.authorId);
+			}
+
+		} else {
+			this.showAuthorList();
+			this.navigate('author/list');
+		}
 	}
 });

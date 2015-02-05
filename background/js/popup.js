@@ -29,7 +29,27 @@ $(function() {
 			App.authorCollection.reset(models);
 		}
 
-		App.router = new App.Router();
-		Backbone.history.start();
+		var urlRegExp = /http:\/\/[htz]?\.?livetube\.cc\/([^\/]*)\/[^\/]*/;
+		var query = {
+			active  : true,
+			windowId: chrome.windows.WINDOW_ID_CURRENT
+		};
+
+		chrome.tabs.query(query, function(tabs) {
+			var currentTab = tabs[0];
+			var currentURL = currentTab.url;
+			var match = urlRegExp.exec(currentURL);
+
+			if(match) {
+				App.authorId = decodeURI(match[1]);
+				
+				var author = App.authorCollection.get(App.authorId);
+
+				App.isNewAuthor = (typeof author === 'undefined');
+			}
+
+			App.router = new App.Router();
+			Backbone.history.start();
+		});
 	});
 });
