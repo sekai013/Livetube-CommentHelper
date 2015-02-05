@@ -33,6 +33,7 @@ App.WordView = Backbone.View.extend({
 		this.$el.append(textArea);
 		textArea.select();
 		document.execCommand('copy');
+		this.trigger('wordCopied');
 		this.$(textArea).remove();
 	},
 

@@ -114,6 +114,11 @@ App.Router = Backbone.Router.extend({
 			this.showEditWordForm(detail.authorId, detail.content);
 			this.navigate('author/' + detail.authorId + '/word/' + detail.content.replace(/[\r\n]/g, '+br+'));
 		}, this);
+		authorPageView.on('wordCopied', function() {
+			chrome.runtime.sendMessage(chrome.runtime.id, {
+				action: 'wordCopied',
+			});
+		});
 
 		App.mainContainer.show(authorPageView);
 	},

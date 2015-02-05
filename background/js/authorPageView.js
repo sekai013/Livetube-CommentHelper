@@ -37,6 +37,9 @@ App.AuthorPageView = Backbone.View.extend({
 
 			wordView.on('wordRemoved', wordRemovedHandler, wordView);
 			wordView.on('wordEdited' , wordEditedHandler);
+			wordView.on('wordCopied' , function() {
+				self.trigger('wordCopied');
+			});
 			$insertionPoint.append(wordView.render().$el);
 		});
 	},
