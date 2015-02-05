@@ -31,9 +31,8 @@ App.AuthorPageView = Backbone.View.extend({
 		}
 
 		this.model.get('words').forEach(function(word) {
-			var escapedWord = word.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 			var wordView = new App.WordView({
-				model: new App.Word({ content: escapedWord.replace(/[\r\n]/g, '<br />') })
+				model: new App.Word({ content: word })
 			});
 
 			wordView.on('wordRemoved', wordRemovedHandler, wordView);

@@ -79,16 +79,15 @@ App.Router = Backbone.Router.extend({
 	},
 
 	showEditWordForm: function(id, content) {
-		var restoredContent = content.replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 		var wordFormView = new App.WordFormView({
-			model: new App.Word({ content: restoredContent, id: id })
+			model: new App.Word({ content: content , id: id })
 		});
 		var author = App.authorCollection.get(id);
-		var index  = author.get('words').indexOf(restoredContent);
+		var index  = author.get('words').indexOf(content);
 		var self   = this;
 
 		wordFormView.on('submitForm', function(word) {
-			if(word !== restoredContent) {
+			if(word !== content) {
 				if(index === -1) {
 					author.get('words').push(word);
 				} else {
@@ -113,7 +112,7 @@ App.Router = Backbone.Router.extend({
 
 		authorPageView.on('wordEdited', function(detail) {
 			this.showEditWordForm(detail.authorId, detail.content);
-			this.navigate('author/' + detail.authorId + '/word/' + detail.content);
+			this.navigate('author/' + detail.authorId + '/word/' + detail.content.replace(/[\r\n]/g, '+br+'));
 		}, this);
 
 		App.mainContainer.show(authorPageView);

@@ -27,7 +27,7 @@ App.WordView = Backbone.View.extend({
 	},
 
 	onClickCopy: function() {
-		var content  = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+		var content  = this.$('#content').text();
 		var textArea = $('<textarea>').prop('value', content).css({ width: '1px' });
 
 		this.$el.append(textArea);
@@ -37,25 +37,25 @@ App.WordView = Backbone.View.extend({
 	},
 
 	onClickPaste: function() {
-		var content  = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+		var content  = this.$('#content').text();
 
 		chrome.tabs.sendMessage(App.tabId, { content: content, action: 'pasteWord' });
 	},
 
 	onClickPost: function() {
-		var content  = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+		var content  = this.$('#content').text();
 
 		chrome.tabs.sendMessage(App.tabId, { content: content, action: 'postWord' });
 	},
 
 	onClickEdit: function() {
-		var content  = this.$('#content').html();
+		var content  = this.$('#content').text();
 
 		this.trigger('wordEdited', content);
 	},
 
 	onClickRemove: function() {
-		var content = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+		var content = this.$('#content').text();
 		
 		this.model.destroy();
 		this.trigger('wordRemoved', content);
