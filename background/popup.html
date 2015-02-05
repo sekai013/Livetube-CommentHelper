@@ -66,8 +66,8 @@
 			</div>
 			<div class="col-xs-6 text-right">
 				<button id="copyWord" class="btn btn-default btn-xs">コピー</button>
-				<button class="btn btn-default btn-xs">コメント欄に張りつけ</button>
-				<button class="btn btn-default btn-xs">投稿</button>
+				<button id="pasteWord" class="btn btn-default btn-xs">コメント欄に張りつけ</button>
+				<button id="postWord" class="btn btn-default btn-xs">投稿</button>
 				<button id="editWord" class="btn btn-default btn-xs">
 					<span class="glyphicon glyphicon-edit"></span> 編集
 				</button>
@@ -144,7 +144,7 @@
 		<thead>
 			<th>
 				<div class="row">
-					<div class="col-xs-8">
+					<div class="col-xs-5">
 						<span class="subHeader">
 							<% if(content === '') { %> 
 								新規ワード登録
@@ -153,9 +153,14 @@
 							<% } %>
 						</span>
 					</div>
-					<div class="col-xs-4 text-right">
+					<div class="col-xs-7 text-right">
+						<!--
 						<a href="#author/list" class="btn btn-default btn-sm">
 							配信者一覧に戻る
+						</a>
+						-->
+						<a href="#author/<%- id %>" class="btn btn-default btn-sm">
+							配信者ページに戻る
 						</a>
 					</div>
 				</div>

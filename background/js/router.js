@@ -52,9 +52,9 @@ App.Router = Backbone.Router.extend({
 				author.destroy();
 				App.authorCollection.add(renewedAuthor);
 				renewedAuthor.save();
-				self.showAuthorList();
-				self.navigate('author/list');
 			}
+			self.showAuthorList();
+			self.navigate('author/list');
 		});
 
 		App.mainContainer.show(authorFormView);
@@ -62,7 +62,7 @@ App.Router = Backbone.Router.extend({
 
 	showNewWordForm: function(id) {
 		var wordFormView = new App.WordFormView({
-			model: new App.Word()
+			model: new App.Word({ id: id })
 		});
 		var self = this;
 
@@ -81,7 +81,7 @@ App.Router = Backbone.Router.extend({
 	showEditWordForm: function(id, content) {
 		var restoredContent = content.replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 		var wordFormView = new App.WordFormView({
-			model: new App.Word({ content: restoredContent })
+			model: new App.Word({ content: restoredContent, id: id })
 		});
 		var author = App.authorCollection.get(id);
 		var index  = author.get('words').indexOf(restoredContent);
@@ -135,5 +135,6 @@ App.Router = Backbone.Router.extend({
 			this.showAuthorList();
 			this.navigate('author/list');
 		}
+
 	}
 });

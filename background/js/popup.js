@@ -42,6 +42,7 @@ $(function() {
 
 			if(match) {
 				App.authorId = decodeURI(match[1]);
+				App.tabId    = currentTab.id;
 				
 				var author = App.authorCollection.get(App.authorId);
 

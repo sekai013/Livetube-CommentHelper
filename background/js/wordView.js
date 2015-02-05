@@ -5,9 +5,11 @@ App.WordView = Backbone.View.extend({
 	tagName: 'tr',
 
 	events: {
-		'click button#removeWord': 'onClickRemove',
 		'click button#copyWord'  : 'onClickCopy',
-		'click button#editWord'  : 'onClickEdit'
+		'click button#pasteWord' : 'onClickPaste',
+		'click button#postWord'  : 'onClickPost',
+		'click button#editWord'  : 'onClickEdit',
+		'click button#removeWord': 'onClickRemove'
 	},
 
 	render: function() {
@@ -17,14 +19,11 @@ App.WordView = Backbone.View.extend({
 
 		this.$el.append(html);
 
-		return this;
-	},
+		if(typeof App.authorId === 'undefined') {
+			this.$('#pasteWord, #postWord').attr('disabled', true);
+		}
 
-	onClickRemove: function() {
-		var content = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-		
-		this.model.destroy();
-		this.trigger('wordRemoved', content);
+		return this;
 	},
 
 	onClickCopy: function() {
@@ -37,9 +36,29 @@ App.WordView = Backbone.View.extend({
 		this.$(textArea).remove();
 	},
 
+	onClickPaste: function() {
+		var content  = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+		chrome.tabs.sendMessage(App.tabId, { content: content, action: 'pasteWord' });
+	},
+
+	onClickPost: function() {
+		var content  = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+		chrome.tabs.sendMessage(App.tabId, { content: content, action: 'postWord' });
+	},
+
 	onClickEdit: function() {
 		var content  = this.$('#content').html();
 
 		this.trigger('wordEdited', content);
+	},
+
+	onClickRemove: function() {
+		var content = this.$('#content').html().replace(/<br>/g, '\n').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+		
+		this.model.destroy();
+		this.trigger('wordRemoved', content);
 	}
+
 });
