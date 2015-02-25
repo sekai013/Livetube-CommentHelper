@@ -14,6 +14,22 @@
 			postWord: function() {
 				selectedInput.value += request.content;
 				postButton.click();
+			},
+
+			getSelectedText: function() {
+				var text = (function() {
+					var selection = window.getSelection();
+					if(selection.rangeCount === 0) {
+						return '';
+					}
+					var range = selection.getRangeAt(0);
+					if(range.collapsed) {
+						return ''
+					}
+					return range.toString();
+				})();
+
+				chrome.runtime.sendMessage(chrome.runtime.id, { text: text });
 			}
 		};
 

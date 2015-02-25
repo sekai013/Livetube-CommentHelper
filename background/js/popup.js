@@ -28,10 +28,17 @@ $(function() {
 				var author = App.authorCollection.get(App.authorId);
 
 				App.isNewAuthor = (typeof author === 'undefined');
-			}
 
-			App.router = new App.Router();
-			Backbone.history.start();
+				chrome.tabs.sendMessage(App.tabId, { action: 'getSelectedText' });
+				chrome.runtime.onMessage.addListener(function(request, response, sendResponse) {
+					App.selectedText = request.text;
+					App.router = new App.Router();
+					Backbone.history.start();
+				});
+			} else {
+				App.router = new App.Router();
+				Backbone.history.start();
+			}
 		});
 	});
 });
