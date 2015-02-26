@@ -60,9 +60,9 @@ App.Router = Backbone.Router.extend({
 		App.mainContainer.show(authorFormView);
 	},
 
-	showNewWordForm: function(id) {
+	showNewWordForm: function(id, content) {
 		var wordFormView = new App.WordFormView({
-			model: new App.Word({ id: id })
+			model: new App.Word({ id: id, content: content || '', newWord: true })
 		});
 		var self = this;
 
@@ -130,6 +130,9 @@ App.Router = Backbone.Router.extend({
 			if(App.isNewAuthor) {
 				this.showNewAuthorForm();
 				this.navigate('author/new');
+			} else if(App.selectedText) {
+				this.showNewWordForm(App.authorId, App.selectedText);
+				this.navigate('author/' + App.authorId + '/word/new');
 			} else {
 				this.showAuthorPage(App.authorId);
 				this.navigate('author/' + App.authorId);
